@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 defineProps<{ msg: string }>()
 
+const message = ref('Loading...')
 const count = ref(0)
+
+onMounted(async () => {
+  const res = await fetch('http://localhost:3000/');
+  message.value = await res.text();
+});
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
+  <h2>{{ message }}</h2>
 
   <div class="card">
     <button type="button" @click="count++">count is {{ count }}</button>
